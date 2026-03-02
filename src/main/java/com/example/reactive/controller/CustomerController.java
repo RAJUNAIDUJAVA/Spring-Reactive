@@ -2,12 +2,14 @@ package com.example.reactive.controller;
 
 import com.example.reactive.model.Customer;
 import com.example.reactive.service.CustomerService;
+import com.example.reactive.service.WebClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private WebClientService webClientservice;
 
 
     @GetMapping("/list")
@@ -32,6 +37,10 @@ public class CustomerController {
     public Flux<Customer> getAllCustomersStream(){
 
         return customerService.loadAllCustomerStream();
+    }
+    @GetMapping("call")
+    public Mono<String> getResultFromWebClient(){
+        return webClientservice.makeCall();
     }
 
 
