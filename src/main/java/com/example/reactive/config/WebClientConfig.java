@@ -10,6 +10,8 @@ import reactor.netty.http.client.HttpClient;
 
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class WebClientConfig {
@@ -17,8 +19,12 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient(){
         // created default uri with help of UriBuider
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("http://localhost:8081/stream/call");
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("http://localhost:8081/stream/call/{message}");
 
+        Map<String, Object> defaults= new HashMap<>();
+        defaults.put("message", "Explain Java 8");
+        // if i want to some default variables like path variable then i can use DefaultUrBuilderFactory
+        factory.setDefaultUriVariables(defaults);
 
         return WebClient.builder()
                 .uriBuilderFactory(factory)
