@@ -6,6 +6,7 @@ import com.example.reactive.service.WebClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -41,6 +42,11 @@ public class CustomerController {
     @GetMapping("call")
     public Mono<String> getResultFromWebClient(){
         return webClientservice.makeCall();
+    }
+
+    @GetMapping("call2/{message}")
+    public Flux<String> getResultFromWebClient(@PathVariable String message){
+        return webClientservice.makecall2(message);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.reactive.config;
 
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,7 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient(){
         // created default uri with help of UriBuider
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("http://localhost:8081/stream/call/{message}");
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("http://localhost:8081/stream");
 
         Map<String, Object> defaults= new HashMap<>();
         defaults.put("message", "Explain Java 8");
@@ -48,6 +49,7 @@ public class WebClientConfig {
 
     public HttpClient callHttpClient(){
         HttpClient httpClient = HttpClient.create()
+                //.doOnConnected(connection -> connection.addHandlerLast(new ReadTimeoutHandler(20)))
                 .responseTimeout(Duration.ofSeconds(20)); // configured 20 secs read timeout
         return httpClient;
     }
